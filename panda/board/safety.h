@@ -6,6 +6,7 @@
 #include "safety/safety_toyota.h"
 #include "safety/safety_tesla.h"
 #include "safety/safety_gm.h"
+#include "safety/safety_wuling.h"
 #include "safety/safety_ford.h"
 #include "safety/safety_hyundai.h"
 #include "safety/safety_chrysler.h"
@@ -40,6 +41,8 @@
 #define SAFETY_HYUNDAI_LEGACY 23U
 #define SAFETY_HYUNDAI_COMMUNITY 24U
 #define SAFETY_STELLANTIS 25U
+#define SAFETY_WULING 29U
+
 
 uint16_t current_safety_mode = SAFETY_SILENT;
 int16_t current_safety_param = 0;
@@ -242,6 +245,7 @@ const safety_hook_config safety_hook_registry[] = {
   {SAFETY_TOYOTA, &toyota_hooks},
   {SAFETY_ELM327, &elm327_hooks},
   {SAFETY_GM, &gm_hooks},
+  {SAFETY_WULING, &wuling_hooks},
   {SAFETY_HONDA_BOSCH, &honda_bosch_hooks},
   {SAFETY_HYUNDAI, &hyundai_hooks},
   {SAFETY_CHRYSLER, &chrysler_hooks},
