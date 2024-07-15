@@ -26,9 +26,14 @@ static int wuling_fwd_hook(int bus_num, CANPacket_t *to_fwd) {
 }
 
 const safety_hooks wuling_hooks = {
+  // .init = nooutput_init,
+  // .rx = wuling_rx_hook,
+  // .tx = wuling_tx_hook,
+  // .tx_lin = nooutput_tx_lin_hook,
+  // .fwd = wuling_fwd_hook,
   .init = nooutput_init,
-  .rx = wuling_rx_hook,
-  .tx = wuling_tx_hook,
+  .rx = default_rx_hook,
+  .tx = nooutput_tx_hook,
   .tx_lin = nooutput_tx_lin_hook,
-  .fwd = wuling_fwd_hook,
+  .fwd = default_fwd_hook,
 };
