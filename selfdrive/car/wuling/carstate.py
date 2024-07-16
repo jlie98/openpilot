@@ -113,9 +113,10 @@ class CarState(CarStateBase):
       ("EBCMWheelSpdFront", 20),
       ("EBCMWheelSpdRear", 20),
       ("PSCMSteeringAngle", 100),
+   
     ]
 
-    return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.POWERTRAIN)
+    return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.POWERTRAIN, enforce_checks=False)
 
   @staticmethod
   def get_loopback_can_parser(CP):
