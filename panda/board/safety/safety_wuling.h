@@ -31,9 +31,9 @@ const safety_hooks wuling_hooks = {
   // .tx = wuling_tx_hook,
   // .tx_lin = nooutput_tx_lin_hook,
   // .fwd = wuling_fwd_hook,
-  .init = nooutput_init,
-  .rx = default_rx_hook,
-  .tx = nooutput_tx_hook,
+  .init = mazda_init,
+  .rx = mazda_rx_hook,
+  .tx = mazda_tx_hook,
   .tx_lin = nooutput_tx_lin_hook,
-  .fwd = default_fwd_hook,
+  .fwd = mazda_fwd_hook,
 };
