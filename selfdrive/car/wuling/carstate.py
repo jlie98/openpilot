@@ -77,11 +77,31 @@ class CarState(CarStateBase):
     return ret
 
   @staticmethod
+  def get_cam_can_parser(CP):
+    signals = []
+    checks = []
+    if CP.networkLocation == NetworkLocation.fwdCamera:
+      signals += [
+        ("COUNTER", "STEERING_LKA"),
+        ("ACCBUTTON", "ASCMActiveCruiseControlStatus"),
+        ("ACCSTATE", "ASCMActiveCruiseControlStatus"),
+        ("ACCSpeedSetpoint", "ASCMActiveCruiseControlStatus"),
+        ("ACCResumeAlert", "ASCMActiveCruiseControlStatus"),
+        ("COUNTER_1", "ASCMActiveCruiseControlStatus"),
+      ]
+      checks += [
+        ("STEERING_LKA", 50),
+        ("ASCMActiveCruiseControlStatus", 20),
+      ]
+
+    return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.CAMERA)
+
+   @staticmethod
   def get_can_parser(CP):
     signals = [
       # sig_name, sig_address
-      
-      ("TurnSignals", "BCMTurnSignals"),
+     ("TurnSignals", "BCMTurnSignals"),
+      ("HighBeamsActive", "BCMTurnSignals"),
       ("SteeringWheelAngle", "PSCMSteeringAngle"),
       ("SteeringWheelRate", "PSCMSteeringAngle"),
       ("SteeringTorque", "PSCMSteeringAngle"),
@@ -98,34 +118,71 @@ class CarState(CarStateBase):
       ("RearRightDoor", "BCMDoorBeltStatus"),
       ("LeftSeatBelt", "BCMDoorBeltStatus"),
       ("RightSeatBelt", "BCMDoorBeltStatus"),
+      ("RIGHTSEATBEALT", "BCMDoorBelt"),
+      ("LEFTSEATBEALT", "BCMDoorBelt"),
       ("EPBClosed", "EPBStatus"),
-      ("CruiseMainOn", "ECMEngineStatus"),
       ("Brake_Pressed", "ECMEngineStatus"),
       ("EPBSTATUS", "EPBStatus"),
+      ("AVH_STATUS", "EPBStatus"),
+      
       ("ACCBUTTON", "ASCMActiveCruiseControlStatus"),
       ("ACCSTATE", "ASCMActiveCruiseControlStatus"),
       ("ACCSpeedSetpoint", "ASCMActiveCruiseControlStatus"),
+      ("ACCResumeAlert", "ASCMActiveCruiseControlStatus"),
+      ("COUNTER_1", "ASCMActiveCruiseControlStatus"),
+      
       ("TRANSMISSION_STATE", "ECMPRDNL"),
+      ("LKAS_STATE", "LkasHud"),
+      ("LKA_ACTIVE", "LkasHud"),
+      ("CruiseMainOn", "AccStatus"),
+      ("CruiseState", "AccStatus"),
+      ("STEER_TORQUE", "STEER_RELATED"),
+      ("GAS_POS", "GAS_PEDAL"),
+      ("BRAKE_POS", "BRAKE_PEDAL"),
+      
+      ("ACC_BTN_1", "STEER_BTN"),
+      ("COUNTER_1", "STEER_BTN"),
     ]
 
     checks = [
-      ("BCMTurnSignals", 1),
+      ("ECMEngineStatus", 10),
+      ("EPBStatus", 10),
+      ("ECMPRDNL", 10),
+      ("BCMDoorBeltStatus", 10),
+      ("BCMDoorBelt", 10),
       ("EBCMWheelSpdFront", 20),
       ("EBCMWheelSpdRear", 20),
       ("PSCMSteeringAngle", 100),
-   
-    ]
+      ("LkasHud", 20),
+      ("AccStatus", 20),
+      ("GAS_PEDAL", 10),
+      ("BRAKE_PEDAL", 50),
+      ("BCMTurnSignals", 30),
+      ("STEER_BTN", 50),
+      ("ASCMActiveCruiseControlStatus", 20),
 
-    return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.POWERTRAIN, enforce_checks=False)
+    ]
+    
+     # Used to read back last counter sent to PT by camera
+    if CP.networkLocation == NetworkLocation.fwdCamera:
+      signals += [
+        ("COUNTER", "STEERING_LKA"),
+      ]
+      checks += [
+        ("STEERING_LKA", 0),
+      ]
+
+
+    return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.POWERTRAIN)
 
   @staticmethod
   def get_loopback_can_parser(CP):
     signals = [
-      ("RollingCounter", "PSCMSteeringAngle"),
+      ("COUNTER", "STEERING_LKA"),
     ]
 
     checks = [
-      ("PSCMSteeringAngle", 10),
+      ("STEERING_LKA", 0),
     ]
 
-    return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.LOOPBACK)
+    return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.LOOPBACK, enforce_checks=False)
