@@ -293,7 +293,7 @@ int set_safety_hooks(uint16_t mode, int16_t param) {
   puts("ENTER SAFETY MANUAL");
   int hook_config_count = sizeof(safety_hook_registry) / sizeof(safety_hook_config);
   for (int i = 0; i < hook_config_count; i++) {
-    puts("ENTER SAFETY MANUAL TRY TO SET", i);
+    puts("ENTER SAFETY MANUAL TRY TO SET");
     if (safety_hook_registry[i].id == mode) {
       current_hooks = safety_hook_registry[i].hooks;
       current_safety_mode = mode;
