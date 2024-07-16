@@ -3,7 +3,7 @@ from cereal import car
 from selfdrive.car.wuling.values import CAR, CruiseButtons,AccState
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint, get_safety_config
 from selfdrive.car.interfaces import CarInterfaceBase
-from common.dp_common import common_interface_atl, common_interface_get_params_lqr
+# from common.dp_common import common_interface_atl, common_interface_get_params_lqr
 
 ButtonType = car.CarState.ButtonEvent.Type
 EventName = car.CarEvent.EventName
@@ -44,20 +44,17 @@ class CarInterface(CarInterfaceBase):
     # mass and CG position, so all cars will have approximately similar dyn behaviors
     ret.tireStiffnessFront, ret.tireStiffnessRear = scale_tire_stiffness(ret.mass, ret.wheelbase, ret.centerToFront)
 
-    # dp
-    ret = common_interface_get_params_lqr(ret)
-
     return ret
 
   # returns a car.CarState
-  def update(self, c, can_strings, dragonconf):
+  def update(self, c, can_strings):
     self.cp.update_strings(can_strings)
     self.cp_loopback.update_strings(can_strings)
 
     ret = self.CS.update(self.cp, self.cp_loopback)
     # dp
-    self.dragonconf = dragonconf
-    ret.cruiseState.enabled = common_interface_atl(ret, dragonconf.dpAtl)
+    # self.dragonconf = dragonconf
+    ret.cruiseState.enabled = True
     ret.canValid = self.cp.can_valid and self.cp_loopback.can_valid
     ret.steeringRateLimited = self.CC.steer_rate_limited if self.CC is not None else False
 
@@ -104,7 +101,6 @@ class CarInterface(CarInterfaceBase):
                          hud_control.leftLaneVisible, 
                          hud_control.rightLaneVisible, 
                          hud_control.leftLaneDepart, 
-                         hud_control.rightLaneDepart,
-                         self.dragonconf)
+                         hud_control.rightLaneDepart)
     self.frame += 1
     return ret
