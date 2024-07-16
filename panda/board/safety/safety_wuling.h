@@ -65,7 +65,7 @@ static int wuling_rx_hook(CANPacket_t *to_push) {
         gas_pressed = GET_BYTE(to_push, 6) != 0U;
       }
 
-      generic_rx_checks((addr == LKAS_HUD));
+      // generic_rx_checks((addr == LKAS_HUD));
    }
 
   controls_allowed = 1;
@@ -101,7 +101,7 @@ static int wuling_fwd_hook(int bus_num, CANPacket_t *to_fwd) {
   if (bus_num == BUS_MAIN) {
     bus_fwd = BUS_CAM;
   } else if (bus_num == BUS_CAM) {
-    bool block =  (addr == STEERING_LKAS);
+    bool block =  (addr == STEERING_LKAS || addr == LKAS_HUD || addr == ACC_STS || addr == CRZ_CTRL);
     if (!block) {
       bus_fwd = BUS_MAIN;
     }
