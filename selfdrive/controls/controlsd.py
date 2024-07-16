@@ -259,7 +259,9 @@ class Controls:
 
       if safety_mismatch or self.mismatch_counter >= 200:
         self.events.add(EventName.controlsMismatch)
-
+        
+      print(safety_mismatch)
+      
       if log.PandaState.FaultType.relayMalfunction in pandaState.faults:
         self.events.add(EventName.relayMalfunction)
 
