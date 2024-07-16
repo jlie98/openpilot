@@ -37,52 +37,12 @@ addr_checks wl_rx_checks = {wl_addr_checks, WL_RX_CHECK_LEN};
 
 static int WULING_rx_hook(CANPacket_t *to_push) {
   bool valid = addr_safety_check(to_push, &wl_rx_checks, NULL, NULL, NULL);
-   if (valid && ((int)GET_BUS(to_push) == BUS_MAIN)) {
-      int addr = GET_ADDR(to_push);
-
-      if (addr == 840) {
-        vehicle_moving = GET_BYTE(to_push, 0) | GET_BYTE(to_push, 1);
-      }
-
-      if (addr == 485) {
-        int torque_driver_new = GET_BYTE(to_push, 6);
-        // update array of samples
-        update_sample(&torque_driver, torque_driver_new);
-      }
-      
-      if (addr == 201) {
-        brake_pressed = GET_BIT(to_push, 40U) != 0U;
-      }
-
-      if (addr == 0x191) {
-        gas_pressed = GET_BYTE(to_push, 6) != 0U;
-      }
-
-      // if ((addr == 0x263)) {
-      //   bool cruise_engaged = GET_BIT(to_push, 38U) != 0U;
-      //   pcm_cruise_check(cruise_engaged);
-      // }
-
-      generic_rx_checks((addr == STEERING_LKAS));
-   }
-  controls_allowed = 1;
   return valid;
 }
 
 static int WULING_tx_hook(CANPacket_t *to_send) {
-  int tx = 1;
-  int addr = GET_ADDR(to_send);
-  int bus = GET_BUS(to_send);
-
-  // Check if msg is sent on the main BUS
-
-  UNUSED(addr);
-  UNUSED(bus);
-  controls_allowed = 1;
-
-  // 1 allows the message through
-  return tx;
-
+  UNUSED(to_send);
+  return 1;
 }
 
 static int WULING_fwd_hook(int bus, CANPacket_t *to_fwd) {
