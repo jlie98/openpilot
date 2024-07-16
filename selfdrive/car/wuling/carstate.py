@@ -136,7 +136,6 @@ class CarState(CarStateBase):
       ("LKA_ACTIVE", "LkasHud"),
       ("CruiseMainOn", "AccStatus"),
       ("CruiseState", "AccStatus"),
-      ("STEER_TORQUE", "STEER_RELATED"),
       ("GAS_POS", "GAS_PEDAL"),
       ("BRAKE_POS", "BRAKE_PEDAL"),
       
