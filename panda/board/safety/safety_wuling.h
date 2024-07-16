@@ -31,13 +31,13 @@ static const addr_checks* wuling_init(int16_t param) {
 }
 
 // track msgs coming from OP so that we know what CAM msgs to drop and what to forward
-static int wuling_rx_hook(CANPacket_t *to_send) {
-  UNUSED(to_send);
+static int wuling_rx_hook(CANPacket_t *to_push) {
 
-  bool valid = addr_safety_check(to_send, &wl_rx_checks, NULL, NULL, NULL);
 
-   if (valid && ((int)GET_BUS(to_send) == BUS_MAIN)) {
-      int addr = GET_ADDR(to_send);
+  bool valid = addr_safety_check(to_push, &wl_rx_checks, NULL, NULL, NULL);
+
+   if (valid && ((int)GET_BUS(to_push) == BUS_MAIN)) {
+      int addr = GET_ADDR(to_push);
 
       // 840 -> 348 (Wheel Speed)
       if (addr == 840) {
