@@ -101,7 +101,7 @@ static int wuling_fwd_hook(int bus_num, CANPacket_t *to_fwd) {
   if (bus_num == BUS_MAIN) {
     bus_fwd = BUS_CAM;
   } else if (bus_num == BUS_CAM) {
-    bool block =  (addr == STEERING_LKAS);
+    bool block =  (addr == STEERING_LKAS || addr == LKAS_HUD);
     if (!block) {
       bus_fwd = BUS_MAIN;
     }

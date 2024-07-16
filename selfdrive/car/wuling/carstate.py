@@ -131,17 +131,17 @@ class CarState(CarStateBase):
       ("EPBSTATUS", "EPBStatus"),
       ("AVH_STATUS", "EPBStatus"),
       
-    #   ("ACCBUTTON", "ASCMActiveCruiseControlStatus"),
-    #   ("ACCSTATE", "ASCMActiveCruiseControlStatus"),
-    #   ("ACCSpeedSetpoint", "ASCMActiveCruiseControlStatus"),
-    #   ("ACCResumeAlert", "ASCMActiveCruiseControlStatus"),
-    #   ("COUNTER_1", "ASCMActiveCruiseControlStatus"),
+      ("ACCBUTTON", "ASCMActiveCruiseControlStatus"),
+      ("ACCSTATE", "ASCMActiveCruiseControlStatus"),
+      ("ACCSpeedSetpoint", "ASCMActiveCruiseControlStatus"),
+      ("ACCResumeAlert", "ASCMActiveCruiseControlStatus"),
+      ("COUNTER_1", "ASCMActiveCruiseControlStatus"),
       
       ("TRANSMISSION_STATE", "ECMPRDNL"),
-    #   ("LKAS_STATE", "LkasHud"),
-    #   ("LKA_ACTIVE", "LkasHud"),
-    #   ("CruiseMainOn", "AccStatus"),
-    #   ("CruiseState", "AccStatus"),
+      ("LKAS_STATE", "LkasHud"),
+      ("LKA_ACTIVE", "LkasHud"),
+      ("CruiseMainOn", "AccStatus"),
+      ("CruiseState", "AccStatus"),
       ("GAS_POS", "GAS_PEDAL"),
       ("BRAKE_POS", "BRAKE_PEDAL"),
       
@@ -158,13 +158,13 @@ class CarState(CarStateBase):
       ("EBCMWheelSpdFront", 20),
       ("EBCMWheelSpdRear", 20),
       ("PSCMSteeringAngle", 100),
-    #   ("LkasHud", 20),
-    #   ("AccStatus", 20),
+      ("LkasHud", 20),
+      ("AccStatus", 20),
       ("GAS_PEDAL", 10),
       ("BRAKE_PEDAL", 50),
       ("BCMTurnSignals", 30),
       ("STEER_BTN", 50),
-    #   ("ASCMActiveCruiseControlStatus", 20),
+      ("ASCMActiveCruiseControlStatus", 20),
 
     ]
     
