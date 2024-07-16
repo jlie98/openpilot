@@ -88,10 +88,16 @@ class CarState(CarStateBase):
         ("ACCSpeedSetpoint", "ASCMActiveCruiseControlStatus"),
         ("ACCResumeAlert", "ASCMActiveCruiseControlStatus"),
         ("COUNTER_1", "ASCMActiveCruiseControlStatus"),
+        ("CruiseMainOn", "AccStatus"),
+        ("CruiseState", "AccStatus"),
+        ("LKAS_STATE", "LkasHud"),
+        ("LKA_ACTIVE", "LkasHud"),
       ]
       checks += [
         ("STEERING_LKA", 50),
+        ("AccStatus", 20),
         ("ASCMActiveCruiseControlStatus", 20),
+        ("LkasHud", 20),
       ]
 
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.CAMERA)
