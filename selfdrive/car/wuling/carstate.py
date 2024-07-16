@@ -96,11 +96,11 @@ class CarState(CarStateBase):
 
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.CAMERA)
 
-   @staticmethod
+  @staticmethod
   def get_can_parser(CP):
     signals = [
       # sig_name, sig_address
-     ("TurnSignals", "BCMTurnSignals"),
+      ("TurnSignals", "BCMTurnSignals"),
       ("HighBeamsActive", "BCMTurnSignals"),
       ("SteeringWheelAngle", "PSCMSteeringAngle"),
       ("SteeringWheelRate", "PSCMSteeringAngle"),
