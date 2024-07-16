@@ -539,7 +539,7 @@ struct CarParams {
     hyundaiLegacy @23;
     hyundaiCommunity @24;
     stellantis @25;
-    wuling @29;
+    wuling @26;
 
   }
 
