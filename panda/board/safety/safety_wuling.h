@@ -7,6 +7,9 @@
 #define BRAKE_DATA      0x269
 #define GAS_DATA      0x260
 
+#define ACC_STS      0x263
+#define CRZ_CTRL      0x370
+
 // CAN bus numbers
 #define BUS_MAIN 0
 #define BUS_RADAR  1
@@ -18,6 +21,9 @@ AddrCheckStruct wl_addr_checks[] = {
   {.msg = {{ENGINE_DATA, 0, 8, .expected_timestep = 100000U}, { 0 }, { 0 }}},
   {.msg = {{BRAKE_DATA, 0, 8, .expected_timestep = 50000U}, { 0 }, { 0 }}},
   {.msg = {{GAS_DATA, 0, 8, .expected_timestep = 50000U}, { 0 }, { 0 }}},
+  {.msg = {{LKAS_HUD, 0, 8, .expected_timestep = 20000U}, { 0 }, { 0 }}},
+  {.msg = {{ACC_STS, 0, 8, .expected_timestep = 50000U}, { 0 }, { 0 }}},
+  {.msg = {{CRZ_CTRL, 0, 8, .expected_timestep = 20000U}, { 0 }, { 0 }}},
 };
 
 #define WL_RX_CHECK_LEN (sizeof(wl_addr_checks) / sizeof(wl_addr_checks[0]))
