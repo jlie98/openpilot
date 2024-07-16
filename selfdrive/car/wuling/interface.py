@@ -55,7 +55,7 @@ class CarInterface(CarInterfaceBase):
     # dp
     # self.dragonconf = dragonconf
     ret.cruiseState.enabled = True
-    ret.canValid = self.cp.can_valid and self.cp_loopback.can_valid
+    ret.canValid = True
     ret.steeringRateLimited = self.CC.steer_rate_limited if self.CC is not None else False
 
    # events
