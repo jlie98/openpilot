@@ -90,10 +90,11 @@ static int wuling_fwd_hook(int bus_num, CANPacket_t *to_fwd) {
   // fwd from car to camera. also fwd certain msgs from camera to car
 
   int bus_fwd = -1;
+  int addr = GET_ADDR(to_fwd);
 
-  if (bus == BUS_MAIN) {
+  if (bus_num == BUS_MAIN) {
     bus_fwd = BUS_CAM;
-  } else if (bus == BUS_CAM) {
+  } else if (bus_num == BUS_CAM) {
     bool block =  (addr == STEERING_LKAS);
     if (!block) {
       bus_fwd = BUS_MAIN;
