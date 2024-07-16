@@ -5,7 +5,7 @@ from opendbc.can.can_define import CANDefine
 from selfdrive.config import Conversions as CV
 from selfdrive.car.interfaces import CarStateBase
 from opendbc.can.parser import CANParser
-from selfdrive.car.wuling.values import DBC, CanBus, STEER_THRESHOLD, CAR, PREGLOBAL_CARS 
+from selfdrive.car.wuling.values import DBC, CanBus, STEER_THRESHOLD, NetworkLocation, CAR, PREGLOBAL_CARS 
 
 class CarState(CarStateBase):
   def __init__(self, CP):

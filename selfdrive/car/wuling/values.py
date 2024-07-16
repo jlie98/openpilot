@@ -1,6 +1,7 @@
 from selfdrive.car import dbc_dict
 from cereal import car
 Ecu = car.CarParams.Ecu
+NetworkLocation = car.CarParams.NetworkLocation
 
 class CarControllerParams:
   STEER_MAX = 300  # Safety limit, not LKA max. Trucks use 600.
