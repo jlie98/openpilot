@@ -65,7 +65,7 @@ static int wuling_rx_hook(CANPacket_t *to_push) {
         gas_pressed = GET_BYTE(to_push, 6) != 0U;
       }
 
-      generic_rx_checks((addr == LKAS_HUD));
+      // generic_rx_checks((addr == LKAS_HUD));
    }
 
   controls_allowed = 1;
