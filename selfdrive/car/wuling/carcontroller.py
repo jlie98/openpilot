@@ -24,6 +24,7 @@ class CarController():
     self.steer_alert_last = False
     self.lkas_action = 0
     self.frame = 0
+    self.apply_angle_last = 0
     
     self.apply_gas = 0
     self.apply_brake = 0
@@ -56,12 +57,17 @@ class CarController():
       lkas_enabled = True
       print('lkas_enabled :  %s' % lkas_enabled)
       if lkas_enabled:
+        apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgo, CarControllerParams)
+         
         new_steer = int(round(actuators.steer * P.STEER_MAX))
         apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque, P)
         self.steer_rate_limited = new_steer != apply_steer
       else:
         apply_steer = 0
-
+        apply_angle = CS.out.steeringAngleDeg
+        
+    self.apply_angle_last = apply_angle
+    
     #   # dp
     #   blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
     #   if not enabled:
@@ -79,8 +85,8 @@ class CarController():
     #   # moment of disengaging, increment the counter based on the last message known to pass Panda safety checks.
     
     #   idx = (CS.lka_steering_cmd_counter + 1) % 4
-    print(apply_steer)
-    can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, self.frame, 1))
+    print(apply_angle)
+    can_sends.append(wulingcan.create_steering_control(self.packer, apply_angle, self.frame, 1))
 
       
     if (frame % 4) == 0:
