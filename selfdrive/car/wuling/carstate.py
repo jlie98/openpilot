@@ -80,25 +80,25 @@ class CarState(CarStateBase):
   def get_cam_can_parser(CP):
     signals = []
     checks = []
-    if CP.networkLocation == NetworkLocation.fwdCamera:
-      signals += [
-        ("COUNTER", "STEERING_LKA"),
-        ("ACCBUTTON", "ASCMActiveCruiseControlStatus"),
-        ("ACCSTATE", "ASCMActiveCruiseControlStatus"),
-        ("ACCSpeedSetpoint", "ASCMActiveCruiseControlStatus"),
-        ("ACCResumeAlert", "ASCMActiveCruiseControlStatus"),
-        ("COUNTER_1", "ASCMActiveCruiseControlStatus"),
-        ("CruiseMainOn", "AccStatus"),
-        ("CruiseState", "AccStatus"),
-        ("LKAS_STATE", "LkasHud"),
-        ("LKA_ACTIVE", "LkasHud"),
-      ]
-      checks += [
-        ("STEERING_LKA", 50),
-        ("AccStatus", 20),
-        ("ASCMActiveCruiseControlStatus", 20),
-        ("LkasHud", 20),
-      ]
+
+    signals += [
+      ("COUNTER", "STEERING_LKA"),
+      ("ACCBUTTON", "ASCMActiveCruiseControlStatus"),
+      ("ACCSTATE", "ASCMActiveCruiseControlStatus"),
+      ("ACCSpeedSetpoint", "ASCMActiveCruiseControlStatus"),
+      ("ACCResumeAlert", "ASCMActiveCruiseControlStatus"),
+      ("COUNTER_1", "ASCMActiveCruiseControlStatus"),
+      ("CruiseMainOn", "AccStatus"),
+      ("CruiseState", "AccStatus"),
+      ("LKAS_STATE", "LkasHud"),
+      ("LKA_ACTIVE", "LkasHud"),
+    ]
+    checks += [
+      ("STEERING_LKA", 50),
+      ("AccStatus", 20),
+      ("ASCMActiveCruiseControlStatus", 20),
+      ("LkasHud", 20),
+    ]
 
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.CAMERA)
 
