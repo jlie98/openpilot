@@ -44,64 +44,24 @@ class CarController():
     steer_alert = visual_alert in (VisualAlert.steerRequired, VisualAlert.ldw)
     lkas_active = True
     
-    apply_steer = actuators.steer
-    print('Actuator Steer :  %s' % apply_steer)
+    if CC.latActive:
+      apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgo, CarControllerParams)
+    else:
+      apply_angle = CS.out.steeringAngleDeg
 
-    
-    if CS.lka_steering_cmd_counter != self.lka_steering_cmd_counter_last:
-      self.lka_steering_cmd_counter_last = CS.lka_steering_cmd_counter
-    elif (frame % P.STEER_STEP) == 0:
-      # lkas_enabled = c.active and not (CS.out.steerWarning or CS.out.steerError) and CS.out.vEgo > P.MIN_STEER_SPEED
-      lkas_enabled = True
-      print('lkas_enabled :  %s' % lkas_enabled)
-      if lkas_enabled:
-        new_steer = int(round(actuators.steer * P.STEER_MAX))
-        apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque, P)
-        self.steer_rate_limited = new_steer != apply_steer
-      else:
-        apply_steer = 0
+    self.apply_angle_last = apply_angle
 
-    #   # dp
-    #   blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
-    #   if not enabled:
-    #     self.blinker_end_frame = 0
-    #   if self.last_blinker_on and not blinker_on:
-    #     self.blinker_end_frame = frame + dragonconf.dpSignalOffDelay
-    #   apply_steer = common_controller_ctrl(enabled,
-    #                                        dragonconf,
-    #                                        blinker_on or frame < self.blinker_end_frame,
-    #                                        apply_steer, CS.out.vEgo)
-    #   self.last_blinker_on = blinker_on
+    # print('car controller: steeringAngleDeg:', actuators.steeringAngleDeg)
+    # print('car controller: apply_angle_last:',  self.apply_angle_last)
+    # print('car controller: vEgo:',  CS.out.vEgo)
+    # print('car controller: apply_angle:',  apply_angle)
 
-    #   self.apply_steer_last = apply_steer
-    #   # GM EPS faults on any gap in received message counters. To handle transient OP/Panda safety sync issues at the
-    #   # moment of disengaging, increment the counter based on the last message known to pass Panda safety checks.
-    
-    #   idx = (CS.lka_steering_cmd_counter + 1) % 4
-    #   can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, idx, 1))
+    can_sends.append(wulingcan.create_steering_control(
+      self.packer_pt, apply_angle, self.frame, CC.enabled))
 
-      
-    if (frame % 4) == 0:
-      print('UI Command HUD Speed :  %s' % hud_speed)
-      # can_sends.append(make_can_msg(0x373, b"\x82\x01\x00\x00\xac\x90\x02\xc1", 0))
-
-      # can_sends.append(wulingcan.create_acc_dashboard_command(self.packer, CanBus.POWERTRAIN, enabled, hud_speed * CV.MS_TO_KPH, 0, 0))
 
     new_actuators = actuators.copy()
-    new_actuators.steer = self.apply_steer_last / self.p.STEER_MAX
-    
-    print('Last enable :  %s' % self.enabled_last)
-    
-    if (enabled):
-        print('enable adas')
+    new_actuators.steeringAngleDeg = apply_angle
 
-    # if enabled and  (frame % 100) == 0:
-      #  can_sends.append(make_can_msg(0x373, b"\xc6\x3d\x01\x00\xac\x90\x02\x42", 0))
-      
-    self.enabled_last = enabled
-    self.main_on_last = CS.out.cruiseState.available
-    self.steer_alert_last = steer_alert
-
-    print('Steer :  %s' % apply_steer)
-
+    self.frame += 1
     return new_actuators, can_sends

@@ -18,12 +18,12 @@
 const CanMsg WULING_TX_MSGS[] = {{ENGINE_DATA, 0, 8}, {LKAS_HUD, 0, 8}};
 
 AddrCheckStruct wl_addr_checks[] = {
-  {.msg = {{ENGINE_DATA, 0, 8, .expected_timestep = 100000U}, { 0 }, { 0 }}},
-  {.msg = {{BRAKE_DATA, 0, 8, .expected_timestep = 50000U}, { 0 }, { 0 }}},
-  {.msg = {{GAS_DATA, 0, 8, .expected_timestep = 50000U}, { 0 }, { 0 }}},
-  {.msg = {{LKAS_HUD, 0, 8, .expected_timestep = 20000U}, { 0 }, { 0 }}},
-  {.msg = {{ACC_STS, 0, 8, .expected_timestep = 50000U}, { 0 }, { 0 }}},
-  {.msg = {{CRZ_CTRL, 0, 8, .expected_timestep = 20000U}, { 0 }, { 0 }}},
+  // {.msg = {{ENGINE_DATA, 0, 8, .expected_timestep = 100000U}, { 0 }, { 0 }}},
+  // {.msg = {{BRAKE_DATA, 0, 8, .expected_timestep = 50000U}, { 0 }, { 0 }}},
+  // {.msg = {{GAS_DATA, 0, 8, .expected_timestep = 50000U}, { 0 }, { 0 }}},
+  // {.msg = {{LKAS_HUD, 0, 8, .expected_timestep = 20000U}, { 0 }, { 0 }}},
+  // {.msg = {{ACC_STS, 0, 8, .expected_timestep = 50000U}, { 0 }, { 0 }}},
+  // {.msg = {{CRZ_CTRL, 0, 8, .expected_timestep = 20000U}, { 0 }, { 0 }}},
 };
 
 #define WL_RX_CHECK_LEN (sizeof(wl_addr_checks) / sizeof(wl_addr_checks[0]))
@@ -44,26 +44,27 @@ static int wuling_rx_hook(CANPacket_t *to_push) {
 
    if (valid && ((int)GET_BUS(to_push) == BUS_MAIN)) {
       int addr = GET_ADDR(to_push);
+      UNUSED(addr);
 
-      // 840 -> 348 (Wheel Speed)
-      if (addr == 840) {
-        vehicle_moving = GET_BYTE(to_push, 0) | GET_BYTE(to_push, 1);
-      }
+      // // 840 -> 348 (Wheel Speed)
+      // if (addr == 840) {
+      //   vehicle_moving = GET_BYTE(to_push, 0) | GET_BYTE(to_push, 1);
+      // }
 
-      // 485 -> 1e5 (Steering Angle)
-      if (addr == 485) {
-        int torque_driver_new = GET_BYTE(to_push, 6);
-        // update array of samples
-        update_sample(&torque_driver, torque_driver_new);
-      }
-      // 201 -> c9 (ECMEngineStatus)
-      if (addr == 201) {
-        brake_pressed = GET_BIT(to_push, 40U) != 0U;
-      }
+      // // 485 -> 1e5 (Steering Angle)
+      // if (addr == 485) {
+      //   int torque_driver_new = GET_BYTE(to_push, 6);
+      //   // update array of samples
+      //   update_sample(&torque_driver, torque_driver_new);
+      // }
+      // // 201 -> c9 (ECMEngineStatus)
+      // if (addr == 201) {
+      //   brake_pressed = GET_BIT(to_push, 40U) != 0U;
+      // }
 
-      if (addr == 0x191) {
-        gas_pressed = GET_BYTE(to_push, 6) != 0U;
-      }
+      // if (addr == 0x191) {
+      //   gas_pressed = GET_BYTE(to_push, 6) != 0U;
+      // }
 
       // generic_rx_checks((addr == LKAS_HUD));
    }
@@ -105,6 +106,8 @@ static int wuling_fwd_hook(int bus_num, CANPacket_t *to_fwd) {
     if (!block) {
       bus_fwd = BUS_MAIN;
     }
+    
+    bus_fwd = BUS_MAIN;
  
   } else {
     // don't fwd

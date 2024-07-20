@@ -145,7 +145,7 @@ class CarState(CarStateBase):
       ("GAS_POS", "GAS_PEDAL"),
       ("BRAKE_POS", "BRAKE_PEDAL"),
       
-      ("ACC_BTN_1", "STEER_BTN"),
+      ("ACC_BTN_2", "STEER_BTN"),
       ("COUNTER_1", "STEER_BTN"),
     ]
 
