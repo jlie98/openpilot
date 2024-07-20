@@ -280,8 +280,8 @@ class Controls:
     else:
       self.logged_comm_issue = False
 
-    if not self.sm['liveParameters'].valid:
-      self.events.add(EventName.vehicleModelInvalid)
+    # if not self.sm['liveParameters'].valid:
+    #   self.events.add(EventName.vehicleModelInvalid)
     if not self.sm['lateralPlan'].mpcSolutionValid:
       self.events.add(EventName.plannerError)
     if not self.sm['liveLocationKalman'].sensorsOK and not NOSENSOR:
