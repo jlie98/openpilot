@@ -95,8 +95,8 @@ class CarState(CarStateBase):
     ]
     checks += [
       ("STEERING_LKA", 50),
-      ("AccStatus", 10),
-      ("ASCMActiveCruiseControlStatus", 10),
+      ("AccStatus", 0),
+      ("ASCMActiveCruiseControlStatus", 0),
       # ("LkasHud", 20),
     ]
 
@@ -159,12 +159,12 @@ class CarState(CarStateBase):
       ("EBCMWheelSpdRear", 20),
       ("PSCMSteeringAngle", 100),
       # ("LkasHud", 20),
-      ("AccStatus", 10),
+      ("AccStatus", 0),
       ("GAS_PEDAL", 10),
       ("BRAKE_PEDAL", 50),
       ("BCMTurnSignals", 30),
       ("STEER_BTN", 50),
-      ("ASCMActiveCruiseControlStatus", 10),
+      ("ASCMActiveCruiseControlStatus", 0),
 
     ]
     
