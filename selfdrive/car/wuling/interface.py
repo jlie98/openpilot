@@ -60,31 +60,34 @@ class CarInterface(CarInterfaceBase):
 
    # events
     events = self.create_common_events(ret)
+  
+    if not self.CP.pcmCruise:
+      events.add(EventName.buttonEnable)
 
     # if self.CS.lkas_disabled:
     #   events.add(EventName.lkasDisabled)
     # elif self.CS.low_speed_alert:
     #   events.add(EventName.belowSteerSpeed)
     
-    if ret.vEgo < self.CP.minEnableSpeed:
-      events.add(EventName.belowEngageSpeed)
-    if self.CS.park_brake:
-      events.add(EventName.parkBrake)
-    if ret.cruiseState.standstill:
-      events.add(EventName.resumeRequired)
-    if self.CS.pcm_acc_status == AccState.FAULTED:
-      events.add(EventName.accFaulted)
-    if ret.vEgo < self.CP.minSteerSpeed:
-      events.add(car.CarEvent.EventName.belowSteerSpeed)
+    # if ret.vEgo < self.CP.minEnableSpeed:
+    #   events.add(EventName.belowEngageSpeed)
+    # if self.CS.park_brake:
+    #   events.add(EventName.parkBrake)
+    # if ret.cruiseState.standstill:
+    #   events.add(EventName.resumeRequired)
+    # if self.CS.pcm_acc_status == AccState.FAULTED:
+    #   events.add(EventName.accFaulted)
+    # if ret.vEgo < self.CP.minSteerSpeed:
+    #   events.add(car.CarEvent.EventName.belowSteerSpeed)
 
     # handle button presses
-    for b in ret.buttonEvents:
-      # do enable on both accel and decel buttons
-      if b.type in (ButtonType.accelCruise, ButtonType.decelCruise) and not b.pressed:
-        events.add(EventName.buttonEnable)
-      # do disable on button down
-      if b.type == ButtonType.cancel and b.pressed:
-        events.add(EventName.buttonCancel)
+    # for b in ret.buttonEvents:
+    #   # do enable on both accel and decel buttons
+    #   if b.type in (ButtonType.accelCruise, ButtonType.decelCruise) and not b.pressed:
+    #     events.add(EventName.buttonEnable)
+    #   # do disable on button down
+    #   if b.type == ButtonType.cancel and b.pressed:
+    #     events.add(EventName.buttonCancel)
 
 
     ret.events = events.to_msg()
