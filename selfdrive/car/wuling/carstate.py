@@ -90,14 +90,14 @@ class CarState(CarStateBase):
       ("COUNTER_1", "ASCMActiveCruiseControlStatus"),
       ("CruiseMainOn", "AccStatus"),
       ("CruiseState", "AccStatus"),
-      ("LKAS_STATE", "LkasHud"),
-      ("LKA_ACTIVE", "LkasHud"),
+      # ("LKAS_STATE", "LkasHud"),
+      # ("LKA_ACTIVE", "LkasHud"),
     ]
     checks += [
       ("STEERING_LKA", 50),
       ("AccStatus", 20),
       ("ASCMActiveCruiseControlStatus", 20),
-      ("LkasHud", 20),
+      # ("LkasHud", 20),
     ]
 
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.CAMERA)
@@ -138,8 +138,8 @@ class CarState(CarStateBase):
       ("COUNTER_1", "ASCMActiveCruiseControlStatus"),
       
       ("TRANSMISSION_STATE", "ECMPRDNL"),
-      ("LKAS_STATE", "LkasHud"),
-      ("LKA_ACTIVE", "LkasHud"),
+      # ("LKAS_STATE", "LkasHud"),
+      # ("LKA_ACTIVE", "LkasHud"),
       ("CruiseMainOn", "AccStatus"),
       ("CruiseState", "AccStatus"),
       ("GAS_POS", "GAS_PEDAL"),
@@ -158,7 +158,7 @@ class CarState(CarStateBase):
       ("EBCMWheelSpdFront", 20),
       ("EBCMWheelSpdRear", 20),
       ("PSCMSteeringAngle", 100),
-      ("LkasHud", 20),
+      # ("LkasHud", 20),
       ("AccStatus", 20),
       ("GAS_PEDAL", 10),
       ("BRAKE_PEDAL", 50),
