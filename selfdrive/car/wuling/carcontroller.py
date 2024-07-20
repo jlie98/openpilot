@@ -44,24 +44,24 @@ class CarController():
     steer_alert = visual_alert in (VisualAlert.steerRequired, VisualAlert.ldw)
     lkas_active = True
     
-    if CC.latActive:
-      apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgo, CarControllerParams)
-    else:
-      apply_angle = CS.out.steeringAngleDeg
+    # if CC.latActive:
+    #   apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgo, CarControllerParams)
+    # else:
+    #   apply_angle = CS.out.steeringAngleDeg
 
-    self.apply_angle_last = apply_angle
+    # self.apply_angle_last = apply_angle
 
     # print('car controller: steeringAngleDeg:', actuators.steeringAngleDeg)
     # print('car controller: apply_angle_last:',  self.apply_angle_last)
     # print('car controller: vEgo:',  CS.out.vEgo)
     # print('car controller: apply_angle:',  apply_angle)
 
-    can_sends.append(wulingcan.create_steering_control(
-      self.packer_pt, apply_angle, self.frame, CC.enabled))
+    # can_sends.append(wulingcan.create_steering_control(
+    #   self.packer_pt, apply_angle, self.frame, CC.enabled))
 
 
     new_actuators = actuators.copy()
-    new_actuators.steeringAngleDeg = apply_angle
+    # new_actuators.steeringAngleDeg = apply_angle
 
     self.frame += 1
     return new_actuators, can_sends
