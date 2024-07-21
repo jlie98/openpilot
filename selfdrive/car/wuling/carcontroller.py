@@ -49,12 +49,11 @@ class CarController():
     print('Actuator Steer :  %s' % apply_steer)
 
     
-    if CS.lka_steering_cmd_counter != self.lka_steering_cmd_counter_last:
-      self.lka_steering_cmd_counter_last = CS.lka_steering_cmd_counter
-    elif (frame % P.STEER_STEP) == 0:
+    # if CS.lka_steering_cmd_counter != self.lka_steering_cmd_counter_last:
+    #   self.lka_steering_cmd_counter_last = CS.lka_steering_cmd_counter
+    
+    if (frame % P.STEER_STEP) == 0:
       # lkas_enabled = c.active and not (CS.out.steerWarning or CS.out.steerError) and CS.out.vEgo > P.MIN_STEER_SPEED
-      lkas_enabled = True
-      print('lkas_enabled :  %s' % lkas_enabled)
       if lkas_enabled:
         new_steer = int(round(actuators.steer * P.STEER_MAX))
         apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque, P)
@@ -62,27 +61,11 @@ class CarController():
       else:
         apply_steer = 0
 
-    #   # dp
-    #   blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
-    #   if not enabled:
-    #     self.blinker_end_frame = 0
-    #   if self.last_blinker_on and not blinker_on:
-    #     self.blinker_end_frame = frame + dragonconf.dpSignalOffDelay
-    #   apply_steer = common_controller_ctrl(enabled,
-    #                                        dragonconf,
-    #                                        blinker_on or frame < self.blinker_end_frame,
-    #                                        apply_steer, CS.out.vEgo)
-    #   self.last_blinker_on = blinker_on
-
-    #   self.apply_steer_last = apply_steer
-    #   # GM EPS faults on any gap in received message counters. To handle transient OP/Panda safety sync issues at the
-    #   # moment of disengaging, increment the counter based on the last message known to pass Panda safety checks.
     
-    #   idx = (CS.lka_steering_cmd_counter + 1) % 4
-    print(apply_steer)
-    can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, self.frame, 1))
+      print(apply_steer)
+      can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, self.frame, 1))
 
-      
+        
     if (frame % 4) == 0:
       print('UI Command HUD Speed :  %s' % hud_speed)
       # can_sends.append(make_can_msg(0x373, b"\x82\x01\x00\x00\xac\x90\x02\xc1", 0))
