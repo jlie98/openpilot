@@ -56,7 +56,7 @@ class CarController():
         apply_steer = 0
         
       idx = (CS.lka_steering_cmd_counter + 1) % 4
-      can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, self.frame, lkas_enabled))
+      can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, frame, lkas_enabled))
 
     
     new_actuators = actuators.copy()
