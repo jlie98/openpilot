@@ -46,9 +46,9 @@ class CarController():
     
     apply_steer = actuators.steer
     print('Actuator Steer :  %s' % apply_steer)
-
+    lkas_enabled = c.active
     if (frame % P.STEER_STEP) == 0:
-      if c.latActive:
+      if lkas_enabled:
         new_steer = int(round(actuators.steer * P.STEER_MAX))
         apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque, P)
         self.steer_rate_limited = new_steer != apply_steer
@@ -56,7 +56,7 @@ class CarController():
         apply_steer = 0
         
       idx = (CS.lka_steering_cmd_counter + 1) % 4
-      can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, self.frame, c.latActive))
+      can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, self.frame, lkas_enabled))
 
     
     new_actuators = actuators.copy()
