@@ -14,8 +14,10 @@ def create_steering_control(packer, apply_steer, frame, steer_req):
   values = {
         "STEER_TORQUE_CMD": -apply_steer,
         "SET_ME_X0": 0x00,
+        "STEER_LOCK_2": 0x64,
         "COUNTER": (frame/2) % 4,
         "STEER_REQUEST": steer_req,
+        "STEER_ANGLE_CMD": apply_steer
   }
   
   values["COUNTER"] = (values["COUNTER"] + 1) % 0x11
