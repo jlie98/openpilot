@@ -26,8 +26,6 @@ class CarController():
     
     self.apply_gas = 0
     self.apply_brake = 0
-    self.apply_angle_last = 0
-    self.apply_steer_last = 0
 
     self.lka_steering_cmd_counter_last = -1
     self.lka_icon_status_last = (False, False)
@@ -52,20 +50,15 @@ class CarController():
     if (frame % P.STEER_STEP) == 0:
       if lkas_enabled:
         new_steer = int(round(actuators.steer * P.STEER_MAX))
-        apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgo, CarControllerParams)
         apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque, P)
         self.steer_rate_limited = new_steer != apply_steer
       else:
         apply_steer = 0
-        apply_angle = CS.out.steeringAngleDeg
         
-      print(apply_angle)
       idx = (CS.lka_steering_cmd_counter + 1) % 4
       can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, frame, lkas_enabled))
 
-      self.apply_angle_last = self.apply_angle
-      self.apply_steer_last = apply_steer
-      
+    
     new_actuators = actuators.copy()
     new_actuators.steer = self.apply_steer_last / self.p.STEER_MAX
     
