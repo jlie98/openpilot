@@ -23,7 +23,6 @@ class CarController():
     self.steer_rate_limited = False
     self.steer_alert_last = False
     self.lkas_action = 0
-    self.frame = 0
     
     self.apply_gas = 0
     self.apply_brake = 0
@@ -79,8 +78,7 @@ class CarController():
     #   # moment of disengaging, increment the counter based on the last message known to pass Panda safety checks.
     
     #   idx = (CS.lka_steering_cmd_counter + 1) % 4
-    print(apply_steer)
-    can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, self.frame, 1))
+    #   can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, idx, 1))
 
       
     if (frame % 4) == 0:
@@ -105,5 +103,5 @@ class CarController():
     self.steer_alert_last = steer_alert
 
     print('Steer :  %s' % apply_steer)
-    self.frame += 1
+
     return new_actuators, can_sends
