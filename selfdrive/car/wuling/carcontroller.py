@@ -57,8 +57,8 @@ class CarController():
       lkas_enabled = True
       print('lkas_enabled :  %s' % lkas_enabled)
       if lkas_enabled:
-        # apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgo, CarControllerParams)
-        apply_angle = CS.out.steeringAngleDeg
+        apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgo, CarControllerParams)
+
       else:
 
         apply_angle = CS.out.steeringAngleDeg
