@@ -47,14 +47,8 @@ class CarController():
     apply_steer = actuators.steer
     print('Actuator Steer :  %s' % apply_steer)
 
-    
-    # if CS.lka_steering_cmd_counter != self.lka_steering_cmd_counter_last:
-    #   self.lka_steering_cmd_counter_last = CS.lka_steering_cmd_counter
     if (frame % P.STEER_STEP) == 0:
-      # lkas_enabled = c.active and not (CS.out.steerWarning or CS.out.steerError) and CS.out.vEgo > P.MIN_STEER_SPEED
-      lkas_enabled = True
-      print('lkas_enabled :  %s' % lkas_enabled)
-      if lkas_enabled:
+      if c.latActive:
         new_steer = int(round(actuators.steer * P.STEER_MAX))
         apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque, P)
         self.steer_rate_limited = new_steer != apply_steer
@@ -62,26 +56,12 @@ class CarController():
         apply_steer = 0
         
       idx = (CS.lka_steering_cmd_counter + 1) % 4
-      can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, idx, 1))
+      can_sends.append(wulingcan.create_steering_control(self.packer, apply_steer, self.frame, c.latActive))
 
-      
-    if (frame % 4) == 0:
-      print('UI Command HUD Speed :  %s' % hud_speed)
-      # can_sends.append(make_can_msg(0x373, b"\x82\x01\x00\x00\xac\x90\x02\xc1", 0))
-
-      # can_sends.append(wulingcan.create_acc_dashboard_command(self.packer, CanBus.POWERTRAIN, enabled, hud_speed * CV.MS_TO_KPH, 0, 0))
-
+    
     new_actuators = actuators.copy()
     new_actuators.steer = self.apply_steer_last / self.p.STEER_MAX
     
-    print('Last enable :  %s' % self.enabled_last)
-    
-    if (enabled):
-        print('enable adas')
-
-    # if enabled and  (frame % 100) == 0:
-      #  can_sends.append(make_can_msg(0x373, b"\xc6\x3d\x01\x00\xac\x90\x02\x42", 0))
-      
     self.enabled_last = enabled
     self.main_on_last = CS.out.cruiseState.available
     self.steer_alert_last = steer_alert
