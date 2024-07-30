@@ -53,6 +53,6 @@ class CarController():
     new_actuators = actuators.copy()
     new_actuators.steer = self.apply_steer_last / P.STEER_MAX
 
-    print('Steer :  %s' % apply_angle)
+    print('Steer :  %s' % self.apply_steer_last)
 
     return new_actuators, can_sends
