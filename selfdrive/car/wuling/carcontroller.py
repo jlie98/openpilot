@@ -12,6 +12,7 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 
 class CarController():
   def __init__(self, dbc_name, CP, VM):
+    self.apply_steer_last = 0
     
     self.lka_steering_cmd_counter_last = -1
     self.lka_icon_status_last = (False, False)
@@ -27,6 +28,7 @@ class CarController():
     
     # Send CAN commands.
     can_sends = []
+    
     
     # Steering (50Hz)
     # Avoid GM EPS faults when transmitting messages too close together: skip this transmit if we just received the
