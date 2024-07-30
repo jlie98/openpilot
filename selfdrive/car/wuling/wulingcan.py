@@ -7,15 +7,13 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 def wuling_checksum(dat):
   return sum(dat) & 0xFF
 
-def create_steering_control(packer, apply_steer, frame, steer_req):
+def create_steering_control(packer, apply_steer, idx, steer_req):
 
-  idx = (apply_steer) % 255
-  
   values = {
         "STEER_TORQUE_CMD": -apply_steer,
         "SET_ME_X0": 0x00,
         "STEER_LOCK_2": 0x64,
-        "COUNTER": (frame/2) % 4,
+        "COUNTER": idx,
         "STEER_REQUEST": steer_req,
         "STEER_ANGLE_CMD": apply_steer
   }
