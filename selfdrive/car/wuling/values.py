@@ -5,7 +5,7 @@ NetworkLocation = car.CarParams.NetworkLocation
 
 class CarControllerParams:
   STEER_MAX = 300  # Safety limit, not LKA max. Trucks use 600.
-  STEER_STEP = 2  # control frames per command
+  STEER_STEP = 3  # control frames per command
   STEER_MAX = 261         # 262 faults
   STEER_DELTA_UP = 3      # 3 is stock. 100 is fine. 200 is too much it seems
   STEER_DELTA_DOWN = 3    # no faults on the way down it seems
