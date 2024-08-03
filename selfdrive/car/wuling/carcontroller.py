@@ -46,9 +46,7 @@ class CarController():
     # Steering (50Hz)
     # Avoid GM EPS faults when transmitting messages too close together: skip this transmit if we just received the
     # next Panda loopback confirmation in the current CS frame.
-    if CS.lka_steering_cmd_counter != self.lka_steering_cmd_counter_last:
-      self.lka_steering_cmd_counter_last = CS.lka_steering_cmd_counter
-    elif (frame % P.STEER_STEP) == 0:
+    if (frame % 2) == 0:
       lkas_enabled = True
       # if !lkas_enabled:
       # else:
