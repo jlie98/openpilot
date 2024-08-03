@@ -106,9 +106,6 @@ static int wuling_fwd_hook(int bus_num, CANPacket_t *to_fwd) {
     if (!block) {
       bus_fwd = BUS_MAIN;
     }
-    
-    bus_fwd = BUS_MAIN;
- 
   } else {
     // don't fwd
   }
