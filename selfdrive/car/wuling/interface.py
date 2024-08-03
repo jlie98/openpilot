@@ -49,13 +49,11 @@ class CarInterface(CarInterfaceBase):
   # returns a car.CarState
   def update(self, c, can_strings):
     self.cp.update_strings(can_strings)
-    self.cp_loopback.update_strings(can_strings)
-
-    ret = self.CS.update(self.cp, self.cp_loopback)
+    ret = self.CS.update(self.cp)
     # dp
     # self.dragonconf = dragonconf
     ret.cruiseState.enabled = True
-    ret.canValid = self.cp.can_valid and self.cp_loopback.can_valid
+    ret.canValid = self.cp.can_valid
     ret.steeringRateLimited = self.CC.steer_rate_limited if self.CC is not None else False
 
    # events

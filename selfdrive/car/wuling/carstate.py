@@ -25,7 +25,7 @@ class CarState(CarStateBase):
 
 
 
-  def update(self, pt_cp, loopback_cp):
+  def update(self, pt_cp):
     ret = car.CarState.new_message()
 
     self.prev_cruise_buttons = self.cruise_buttons
@@ -49,8 +49,6 @@ class CarState(CarStateBase):
     ret.leftBlinker = pt_cp.vl["BCMTurnSignals"]["TurnSignals"] == 1
     ret.rightBlinker = pt_cp.vl["BCMTurnSignals"]["TurnSignals"] == 2
     
-    self.lka_steering_cmd_counter = loopback_cp.vl["STEERING_LKA"]["COUNTER"]
-
     # ret.doorOpen = (pt_cp.vl["BCMDoorBeltStatus"]["FrontLeftDoor"] == 1 or
     #             pt_cp.vl["BCMDoorBeltStatus"]["FrontRightDoor"] == 1 or
     #             pt_cp.vl["BCMDoorBeltStatus"]["RearLeftDoor"] == 1 or
@@ -181,15 +179,3 @@ class CarState(CarStateBase):
 
 
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.POWERTRAIN)
-
-  @staticmethod
-  def get_loopback_can_parser(CP):
-    signals = [
-      ("COUNTER", "STEERING_LKA"),
-    ]
-
-    checks = [
-      ("STEERING_LKA", 0),
-    ]
-
-    return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, CanBus.LOOPBACK, enforce_checks=False)
