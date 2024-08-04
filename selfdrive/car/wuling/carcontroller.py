@@ -40,12 +40,15 @@ class CarController():
     
     # Send CAN commands.
     can_sends = []
-    
-    apply_angle = apply_wuling_steer_angle_limits(actuators.steeringAngleDeg, CS.out.steeringAngleDeg, CS.out.vEgo)
-
+  
     # Steering (50Hz)
     # Avoid GM EPS faults when transmitting messages too close together: skip this transmit if we just received the
     # next Panda loopback confirmation in the current CS frame.
+    if c.active:
+      apply_angle = apply_wuling_steer_angle_limits(actuators.steeringAngleDeg, CS.out.steeringAngleDeg, CS.out.vEgo)
+    else:
+      apply_angle = CS.out.steeringAngleDeg
+      
     if (frame % 2) == 0:
       lkas_enabled = True
       # if !lkas_enabled:

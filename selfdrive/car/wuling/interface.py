@@ -58,11 +58,35 @@ class CarInterface(CarInterfaceBase):
     ret.canValid = self.cp.can_valid and self.cp_loopback.can_valid
     ret.steeringRateLimited = self.CC.steer_rate_limited if self.CC is not None else False
 
-   # events
+    buttonEvents = []
+
+    if self.CS.cruise_buttons != self.CS.prev_cruise_buttons and self.CS.prev_cruise_buttons != CruiseButtons.INIT:
+      be = car.CarState.ButtonEvent.new_message()
+      be.type = ButtonType.unknown
+      if self.CS.cruise_buttons != CruiseButtons.UNPRESS:
+        be.pressed = True
+        but = self.CS.cruise_buttons
+      else:
+        be.pressed = False
+        but = self.CS.prev_cruise_buttons
+      if but == CruiseButtons.RES_ACCEL:
+        if not (ret.cruiseState.enabled and ret.standstill):
+          be.type = ButtonType.accelCruise  # Suppress resume button if we're resuming from stop so we don't adjust speed.
+      elif but == CruiseButtons.DECEL_SET:
+        be.type = ButtonType.decelCruise
+      elif but == CruiseButtons.CANCEL:
+        be.type = ButtonType.cancel
+      elif but == CruiseButtons.MAIN:
+        be.type = ButtonType.altButton3
+      buttonEvents.append(be)
+
+    ret.buttonEvents = buttonEvents
+    
+    # events
     events = self.create_common_events(ret)
   
-    if not self.CP.pcmCruise:
-      events.add(EventName.buttonEnable)
+    # if not self.CP.pcmCruise:
+    #   events.add(EventName.buttonEnable)
 
     # if self.CS.lkas_disabled:
     #   events.add(EventName.lkasDisabled)

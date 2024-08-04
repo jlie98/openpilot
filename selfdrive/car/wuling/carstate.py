@@ -30,6 +30,7 @@ class CarState(CarStateBase):
 
     self.prev_cruise_buttons = self.cruise_buttons
 
+    self.cruise_buttons = pt_cp.vl["STEER_BTN"]["ACC_BTN_1"]
     self.engineRPM = pt_cp.vl["ECMEngineStatus"]['EngineRPM']*0.25
 
     ret.wheelSpeeds = self.get_wheel_speeds(
@@ -147,7 +148,7 @@ class CarState(CarStateBase):
       ("GAS_POS", "GAS_PEDAL"),
       ("BRAKE_POS", "BRAKE_PEDAL"),
       
-      ("ACC_BTN_2", "STEER_BTN"),
+      ("ACC_BTN_1", "STEER_BTN"),
       ("COUNTER_1", "STEER_BTN"),
     ]
 
